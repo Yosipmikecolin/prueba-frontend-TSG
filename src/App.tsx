@@ -1,11 +1,13 @@
 import classes from "./App.module.css";
 import Portada from "./assets/Portada.jpeg";
+import IconCarUp from "./assets/icons/car-up-icon.png";
+import IconMotoUp from "./assets/icons/motorcycle-up-icon.png";
 
 function App() {
   const motoSpots = [
     { id: "M1", status: "empty" },
     { id: "M2", status: "empty" },
-    { id: "M3", status: "empty" },
+    { id: "M3", status: "occupied" },
     { id: "M4", status: "empty" },
     { id: "M5", status: "empty" },
   ];
@@ -14,7 +16,7 @@ function App() {
     { id: "C1", status: "empty" },
     { id: "C2", status: "occupied" },
     { id: "C3", status: "empty" },
-    { id: "C4", status: "reserved" },
+    { id: "C4", status: "empty" },
     { id: "C5", status: "empty" },
     { id: "C6", status: "empty" },
   ];
@@ -31,7 +33,11 @@ function App() {
                 key={spot.id}
                 className={`${classes.spot} ${classes[spot.status]}`}
               >
-                {spot.id}
+                {spot.status === "occupied" ? (
+                  <img src={IconMotoUp} width={43} />
+                ) : (
+                  spot.id
+                )}
               </div>
             ))}
           </div>
@@ -44,7 +50,11 @@ function App() {
                 key={spot.id}
                 className={`${classes.spot} ${classes[spot.status]}`}
               >
-                {spot.id}
+                {spot.status === "occupied" ? (
+                  <img src={IconCarUp} width={40} />
+                ) : (
+                  spot.id
+                )}
               </div>
             ))}
           </div>

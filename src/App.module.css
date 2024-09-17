@@ -73,6 +73,7 @@
   color: #666;
   cursor: pointer;
   position: relative;
+  transition: 300ms ease;
 }
 
 /* Estados de los espacios */
@@ -85,12 +86,8 @@
   cursor: not-allowed;
 }
 
-.reserved {
-  background-color: #eae9e3;
-  color: #999;
-}
-
 /* Efecto hover solo para espacios disponibles */
 .spot:hover:not(.occupied):not(.reserved) {
-  background-color: #c1e2a4;
+  background-color: #cecec0;
+  color: white;
 }
