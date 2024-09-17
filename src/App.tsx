@@ -3,8 +3,20 @@ import Portada from "./assets/Portada.jpeg";
 import IconCarUp from "./assets/icons/car-up-icon.png";
 import IconMotoUp from "./assets/icons/motorcycle-up-icon.png";
 import { NotebookPen } from "lucide-react";
+import { Modal } from "./components";
+import { useState } from "react";
 
 function App() {
+  const [visibleModal, setVisibleModal] = useState(false);
+
+  const onClose = () => {
+    setVisibleModal(false);
+  };
+
+  const onOpen = () => {
+    setVisibleModal(true);
+  };
+
   const motoSpots = [
     { id: "M1", status: "empty" },
     { id: "M2", status: "empty" },
@@ -24,8 +36,9 @@ function App() {
 
   return (
     <div className={classes["container-home"]}>
+      <Modal visibleModal={visibleModal} onClose={onClose} />
       <div className={classes.box1}>
-        <button className={classes["button-register"]}>
+        <button className={classes["button-register"]} onClick={onOpen}>
           <NotebookPen color="#3C3D37" />
         </button>
         <div className={classes.parkingSelection}>

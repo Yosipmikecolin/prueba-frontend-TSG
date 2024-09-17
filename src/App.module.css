@@ -87,7 +87,6 @@
   cursor: not-allowed;
 }
 
-/* Efecto hover solo para espacios disponibles */
 .spot:hover:not(.occupied):not(.reserved) {
   background-color: #cecec0;
   color: white;
