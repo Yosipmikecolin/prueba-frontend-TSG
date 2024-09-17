@@ -1,35 +1,60 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import classes from "./App.module.css";
+import Portada from "./assets/Portada.jpeg";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const motoSpots = [
+    { id: "M1", status: "empty" },
+    { id: "M2", status: "empty" },
+    { id: "M3", status: "empty" },
+    { id: "M4", status: "empty" },
+    { id: "M5", status: "empty" },
+  ];
+
+  const carSpots = [
+    { id: "C1", status: "empty" },
+    { id: "C2", status: "occupied" },
+    { id: "C3", status: "empty" },
+    { id: "C4", status: "reserved" },
+    { id: "C5", status: "empty" },
+    { id: "C6", status: "empty" },
+  ];
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className={classes["container-home"]}>
+      <div className={classes.box1}>
+        <div className={classes.parkingSelection}>
+          {/* Sección de motos */}
+          <div className={classes.categoryTitle}>Motos</div>
+          <div className={classes.parkingGrid}>
+            {motoSpots.map((spot) => (
+              <div
+                key={spot.id}
+                className={`${classes.spot} ${classes[spot.status]}`}
+              >
+                {spot.id}
+              </div>
+            ))}
+          </div>
+
+          {/* Sección de carros */}
+          <div className={classes.categoryTitle}>Carros</div>
+          <div className={classes.parkingGrid}>
+            {carSpots.map((spot) => (
+              <div
+                key={spot.id}
+                className={`${classes.spot} ${classes[spot.status]}`}
+              >
+                {spot.id}
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
+      <div className={classes.box2}>
+        <img src={Portada} />
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    </div>
+  );
 }
 
-export default App
+export default App;

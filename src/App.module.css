@@ -1,0 +1,96 @@
+.container-home {
+  width: 100%;
+  height: 100vh;
+  margin: auto;
+  overflow: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.box1 {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #eae9e3;
+}
+
+.box2 {
+  width: 100%;
+  height: 100%;
+  background-color: #cecec0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.box2 > img {
+  width: 80%;
+  height: 80%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.parkingSelection {
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.parkingSelection h2 {
+  margin-bottom: 20px;
+  font-size: 1.5em;
+}
+
+.categoryTitle {
+  font-size: 1.3em;
+  margin: 20px 0 10px 0;
+  text-align: left;
+  color: #333;
+  font-weight: bold;
+}
+
+.parkingGrid {
+  display: grid;
+  grid-template-columns: repeat(5, 100px);
+  gap: 20px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.spot {
+  width: 100px;
+  height: 150px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.2em;
+  color: #666;
+  cursor: pointer;
+  position: relative;
+}
+
+/* Estados de los espacios */
+.empty {
+  background-color: #fff;
+}
+
+.occupied {
+  background-color: #d4d4d4;
+  cursor: not-allowed;
+}
+
+.reserved {
+  background-color: #eae9e3;
+  color: #999;
+}
+
+/* Efecto hover solo para espacios disponibles */
+.spot:hover:not(.occupied):not(.reserved) {
+  background-color: #c1e2a4;
+}
