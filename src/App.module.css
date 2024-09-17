@@ -2,10 +2,11 @@
   width: 100%;
   height: 100vh;
   margin: auto;
-  overflow: auto;
+  overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: #eae9e3;
 }
 
 .box1 {
@@ -14,7 +15,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #eae9e3;
+  position: relative;
 }
 
 .box2 {
@@ -90,4 +91,85 @@
 .spot:hover:not(.occupied):not(.reserved) {
   background-color: #cecec0;
   color: white;
+}
+
+.button-register {
+  cursor: pointer;
+  color: #3c3d37;
+  display: flex;
+  font-family: "Poppins-Regular";
+  align-items: center;
+  gap: 20px;
+  padding: 10px 20px;
+  font-size: 20px;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* MEDIA QUERIES */
+
+@media (max-width: 1065px) {
+  .container-home {
+    flex-wrap: wrap;
+    height: auto;
+  }
+
+  .box2 {
+    display: none;
+  }
+
+  .box1 {
+    height: 100vh;
+  }
+}
+
+@media (max-height: 691px) {
+  .box1 {
+    height: auto;
+  }
+}
+
+@media (max-width: 631px) {
+  .parkingGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .spot {
+    height: 100px;
+    font-size: 1em;
+  }
+
+  .parkingSelection {
+    padding: 10px;
+  }
+
+  .categoryTitle {
+    font-size: 1.2em;
+    margin: 10px 0;
+    text-align: center;
+  }
+}
+
+@media (max-width: 400px) {
+  .parkingGrid {
+    margin-top: 50px;
+  }
+}
+
+@media (max-width: 285px) {
+  .parkingGrid {
+    gap: 8px;
+  }
+
+  .spot {
+    width: 80px;
+  }
 }

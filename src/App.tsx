@@ -2,6 +2,7 @@ import classes from "./App.module.css";
 import Portada from "./assets/Portada.jpeg";
 import IconCarUp from "./assets/icons/car-up-icon.png";
 import IconMotoUp from "./assets/icons/motorcycle-up-icon.png";
+import { NotebookPen } from "lucide-react";
 
 function App() {
   const motoSpots = [
@@ -24,6 +25,9 @@ function App() {
   return (
     <div className={classes["container-home"]}>
       <div className={classes.box1}>
+        <button className={classes["button-register"]}>
+          <NotebookPen color="#3C3D37" />
+        </button>
         <div className={classes.parkingSelection}>
           {/* Sección de motos */}
           <div className={classes.categoryTitle}>Motos</div>
