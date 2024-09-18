@@ -15,12 +15,15 @@ interface Props {
   places?: Place[];
 }
 
-type Type = "car" | "motorcycle";
+type Type = "car" | "motorcycle" | undefined;
+type Category = "electric" | "hybrid" | undefined;
 
 const Modal = ({ visibleModal, onClose, places }: Props) => {
   const [emptyPlaces, setEmptyPlaces] = useState<Place[]>([]);
-  const [startDate, setStartDate] = useState<Date | null>(new Date());
-  const [typeVehicle, setTypeVehicle] = useState<Type | undefined>(undefined);
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
+  const [category, setCategory] = useState<Category>(undefined);
+  const [typeVehicle, setTypeVehicle] = useState<Type>(undefined);
   const mutation = useMutation({
     mutationFn: registerVehicle,
   });
@@ -40,7 +43,7 @@ const Modal = ({ visibleModal, onClose, places }: Props) => {
   const handleContainerClick = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
     onClose();
-    setTypeVehicle(undefined);
+    cleanValues();
   };
 
   const handleFormClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -49,6 +52,13 @@ const Modal = ({ visibleModal, onClose, places }: Props) => {
 
   const selectVehicle = (type: Type) => {
     setTypeVehicle(type);
+  };
+
+  const cleanValues = () => {
+    setTypeVehicle(undefined);
+    setCategory(undefined);
+    setStartDate(null);
+    setEndDate(null);
   };
 
   const handleSubmit = (e: any) => {
@@ -130,12 +140,36 @@ const Modal = ({ visibleModal, onClose, places }: Props) => {
                   />
 
                   <DatePicker
-                    selected={startDate}
+                    selected={endDate}
                     showTimeSelect
                     className={classes["date-picker"]}
-                    onChange={(date) => setStartDate(date)}
+                    onChange={(date) => setEndDate(date)}
                     placeholderText="Hora de salida"
                   />
+
+                  <h3>Categoría</h3>
+                  <div className={classes["container-buttons-category"]}>
+                    <button
+                      className={
+                        category === "electric"
+                          ? classes["button-category-select"]
+                          : classes["button-category"]
+                      }
+                      onClick={() => setCategory("electric")}
+                    >
+                      Electrónico
+                    </button>
+                    <button
+                      className={
+                        category === "hybrid"
+                          ? classes["button-category-select"]
+                          : classes["button-category"]
+                      }
+                      onClick={() => setCategory("hybrid")}
+                    >
+                      Híbrido
+                    </button>
+                  </div>
                 </div>
                 <button className={classes["button-modal"]}>
                   Registrar vehiculo

@@ -129,6 +129,27 @@
   background-color: #e9eb75;
 }
 
+.container-buttons-category {
+  display: flex;
+  gap: 5px;
+}
+
+.button-category {
+  border: none;
+  background-color: #cecec0;
+  border-radius: 10px;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.button-category-select {
+  border: none;
+  background-color: #e9eb75;
+  border-radius: 10px;
+  padding: 10px;
+  cursor: pointer;
+}
+
 .button-modal {
   display: flex;
   justify-content: center;
