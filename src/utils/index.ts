@@ -1,5 +1,12 @@
 import { Place } from "../interfaces";
 
+const applyDiscount = (
+  valorOriginal: number,
+  porcentajeDescuento: number
+): number => {
+  return valorOriginal - (valorOriginal * porcentajeDescuento) / 100;
+};
+
 export const calculateTotalIncome = (data: Place[]) => {
   let totalIncome = 0;
 
@@ -25,7 +32,7 @@ export const calculateTotalIncome = (data: Place[]) => {
 
           // Aplicar descuento del 25% si el vehículo tiene discount = "25"
           if (slot.vehicle.discount === "25") {
-            income *= 0.75; // Aplica un descuento del 25%
+            income = applyDiscount(income, 25); // Aplica un descuento del 25%
           }
 
           totalIncome += income;
