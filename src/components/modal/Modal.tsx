@@ -16,15 +16,20 @@ interface Props {
 }
 
 type Type = "car" | "motorcycle" | undefined;
+type TypeValues = "startDate" | "endDate" | "plate";
 type Category = "electric" | "hybrid" | undefined;
 
 const Modal = ({ visibleModal, onClose, places }: Props) => {
   const [emptyPlaces, setEmptyPlaces] = useState<Place[]>([]);
-  const [startDate, setStartDate] = useState<Date | null>(null);
-  const [endDate, setEndDate] = useState<Date | null>(null);
   const [category, setCategory] = useState<Category>(undefined);
   const [typeVehicle, setTypeVehicle] = useState<Type>(undefined);
   const [placeEmpty, setPlaceEmpty] = useState("");
+  const [values, setValues] = useState({
+    entry_time: null,
+    exit_time: null,
+    plate: undefined,
+  });
+
   const mutation = useMutation({
     mutationFn: registerVehicle,
   });
@@ -62,21 +67,32 @@ const Modal = ({ visibleModal, onClose, places }: Props) => {
   const cleanValues = () => {
     setTypeVehicle(undefined);
     setCategory(undefined);
-    setStartDate(null);
-    setEndDate(null);
   };
 
-  const handleSubmit = (e: any) => {
+  const changeValues = (type: TypeValues, value: any) => {
+    setValues({ ...values, [type]: value });
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (typeVehicle) {
+    if (
+      typeVehicle &&
+      placeEmpty &&
+      values.entry_time &&
+      values.exit_time &&
+      values.plate
+    ) {
       mutation.mutate({
         discount: "20",
-        entry_time: new Date(),
-        exit_time: new Date("2024-09-21"),
-        plate: "DF783",
+        entry_time: values.entry_time,
+        exit_time: values.exit_time,
+        plate: values.plate,
         type: typeVehicle,
-        placeId: 1,
+        placeId: placeEmpty,
       });
+      console.log("values", values);
+    } else {
+      alert("LLena todos los campos");
     }
   };
 
@@ -143,20 +159,26 @@ const Modal = ({ visibleModal, onClose, places }: Props) => {
                       </div>
                     ))}
                   </div>
-                  <input className={classes.input} placeholder="Placa" />
+                  <input
+                    className={classes.input}
+                    placeholder="Placa"
+                    onChange={(e) => {
+                      changeValues("plate", e.target.value);
+                    }}
+                  />
                   <DatePicker
-                    selected={startDate}
+                    selected={values.entry_time}
                     showTimeSelect
                     className={classes["date-picker"]}
-                    onChange={(date) => setStartDate(date)}
+                    onChange={(date) => changeValues("startDate", date)}
                     placeholderText="Hora de ingreso"
                   />
 
                   <DatePicker
-                    selected={endDate}
+                    selected={values.exit_time}
                     showTimeSelect
                     className={classes["date-picker"]}
-                    onChange={(date) => setEndDate(date)}
+                    onChange={(date) => changeValues("endDate", date)}
                     placeholderText="Hora de salida"
                   />
 
