@@ -1,4 +1,4 @@
-# Prueba Quick 🧩
+# Prueba TSG 🧩
 
  A continuación dejo una guía detallada sobre el proyecto que he completado como parte de una prueba técnica para evaluar mis conocimientos como desarrollador Frontend. En este proyecto, he demostrado mi habilidad para desarrollar aplicaciones frontend utilizando las tecnologías y prácticas más recientes en el ecosistema de React.
  
