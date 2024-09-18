@@ -3,9 +3,11 @@ export interface Place {
   status: string;
   place: string;
   type: string;
+  vehicle: Vehicle;
 }
 
 export interface Vehicle {
+  id: number;
   plate: string;
   type: string;
   entry_time: Date;
