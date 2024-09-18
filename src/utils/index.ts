@@ -20,9 +20,15 @@ export const calculateTotalIncome = (data: Place[]) => {
             rate = 120;
           }
 
-          const income = diffInHours * rate;
+          // Calcular el ingreso sin descuento
+          let income = diffInHours * rate;
 
-          return (totalIncome += income);
+          // Aplicar descuento del 25% si el vehículo tiene discount = "25"
+          if (slot.vehicle.discount === "25") {
+            income *= 0.75; // Aplica un descuento del 25%
+          }
+
+          totalIncome += income;
         }
       }
     }
