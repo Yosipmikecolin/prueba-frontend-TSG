@@ -1,50 +1,40 @@
-# React + TypeScript + Vite
+# Prueba Quick 🧩
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+ A continuación dejo una guía detallada sobre el proyecto que he completado como parte de una prueba técnica para evaluar mis conocimientos como desarrollador Frontend. En este proyecto, he demostrado mi habilidad para desarrollar aplicaciones frontend utilizando las tecnologías y prácticas más recientes en el ecosistema de React.
+ 
+ 
+## Instalación 🔧
+A continuación, se enumeran los paquetes necesarios para ejecutar el proyecto en un entorno local:
 
-Currently, two official plugins are available:
+- Node.js
+- NPM
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## Expanding the ESLint configuration
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Componentes 🚀
 
-- Configure the top-level `parserOptions` property like this:
+En este proyecto, todos los componentes de diseño, desde el modal hasta los botones y cards, fueron creados meticulosamente desde cero. Este enfoque se ha adoptado con el propósito específico de demostrar mis habilidades y conocimientos como desarrollador Frontend. Cada componente ha sido diseñado y desarrollado con atención al detalle, reflejando mi capacidad para crear soluciones frontend eficientes y estéticamente atractivas.
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+## Diseño responsivo 🎨
+
+Todas las vistas han sido diseñadas y optimizadas para garantizar una experiencia fluida y atractiva, incluso en dispositivos con pantallas pequeñas.
+
+
+
+
+## Video de explicación  📹
+A continuación, les proporciono un vídeo explicativo sobre la funcionalidad de la aplicación
+
+[https://drive.google.com/file/d/1jVNwm8NOWM2sL4xf_6JdD63NAZhIIszP/view?usp=sharing](https://drive.google.com/file/d/1rraYOelZsgrRVDhONWW7tqxM0RA4x9V1/view?usp=sharing)
+
+
+
+
+
+
+
+
+⌨️ hecho por [Yosip Parrado ]( https://github.com/Yosipmikecolin)😊
