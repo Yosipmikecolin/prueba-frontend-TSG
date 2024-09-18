@@ -5,6 +5,8 @@ import IconCar from "../../assets/icons/car-side-icon.png";
 import IconMoto from "../../assets/icons/motorcycle-side-icon.png";
 import { useEffect, useState } from "react";
 import { Place } from "../../interfaces";
+import { useMutation } from "@tanstack/react-query";
+import { registerVehicle } from "../../api/request";
 
 interface Props {
   visibleModal: boolean;
@@ -12,13 +14,14 @@ interface Props {
   places?: Place[];
 }
 
-type Vehicle = "car" | "motorcycle";
+type Type = "car" | "motorcycle";
 
 const Modal = ({ visibleModal, onClose, places }: Props) => {
   const [emptyPlaces, setEmptyPlaces] = useState<Place[]>([]);
-  const [typeVehicle, setTypeVehicle] = useState<Vehicle | undefined>(
-    undefined
-  );
+  const [typeVehicle, setTypeVehicle] = useState<Type | undefined>(undefined);
+  const mutation = useMutation({
+    mutationFn: registerVehicle,
+  });
 
   useEffect(() => {
     if (typeVehicle) {
@@ -42,8 +45,22 @@ const Modal = ({ visibleModal, onClose, places }: Props) => {
     e.stopPropagation();
   };
 
-  const selectVehicle = (type: Vehicle) => {
+  const selectVehicle = (type: Type) => {
     setTypeVehicle(type);
+  };
+
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    if (typeVehicle) {
+      mutation.mutate({
+        discount: "20",
+        entry_time: new Date(),
+        exit_time: new Date("2024-09-21"),
+        plate: "DF783",
+        type: typeVehicle,
+        placeId: 1,
+      });
+    }
   };
 
   return (
@@ -52,7 +69,7 @@ const Modal = ({ visibleModal, onClose, places }: Props) => {
         className={classes["container-modal"]}
         onClick={handleContainerClick}
       >
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className={classes["form-modal"]} onClick={handleFormClick}>
             <CircleX
               className={classes["icon-close"]}
