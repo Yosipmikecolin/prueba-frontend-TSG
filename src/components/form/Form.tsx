@@ -190,7 +190,11 @@ export const Form = ({
                       ? classes["button-category-select"]
                       : classes["button-category"]
                   }
-                  onClick={() => changeValues("category", "electric")}
+                  onClick={() =>
+                    values.category === "electric"
+                      ? changeValues("category", undefined)
+                      : changeValues("category", "electric")
+                  }
                 >
                   Electrónico
                 </button>
@@ -201,7 +205,11 @@ export const Form = ({
                       ? classes["button-category-select"]
                       : classes["button-category"]
                   }
-                  onClick={() => changeValues("category", "hybrid")}
+                  onClick={() =>
+                    values.category === "hybrid"
+                      ? changeValues("category", undefined)
+                      : changeValues("category", "hybrid")
+                  }
                 >
                   Híbrido
                 </button>
