@@ -4,19 +4,24 @@ import classes from "./Modal.module.css";
 import IconCar from "../../assets/icons/car-side-icon.png";
 import IconMoto from "../../assets/icons/motorcycle-side-icon.png";
 import { useState } from "react";
+import { Place } from "../../interfaces";
 
 interface Props {
   visibleModal: boolean;
   onClose: () => void;
+  places?: Place[];
 }
 
 type Vehicle = "car" | "motorcycle";
 
-const Modal = ({ visibleModal, onClose }: Props) => {
+const Modal = ({ visibleModal, onClose, places }: Props) => {
   const [typeVehicle, setTypeVehicle] = useState<Vehicle | undefined>(
     undefined
   );
-  const places = [1, 2, 3, 4, 5, 6, 7];
+
+  const emptyPlaces = places?.length
+    ? places.filter((i) => i.status === "empty")
+    : [];
 
   const handleContainerClick = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
@@ -81,8 +86,8 @@ const Modal = ({ visibleModal, onClose }: Props) => {
                     {typeVehicle === "car" ? " $120 × hora" : " $62 × hora"}
                   </h2>
                   <div className={classes["conatiner-places"]}>
-                    {places.map((place) => (
-                      <div key={place} className={classes.place} />
+                    {emptyPlaces.map((place) => (
+                      <div key={place.id} className={classes.place} />
                     ))}
                   </div>
                   <input className={classes.input} placeholder="Placa" />

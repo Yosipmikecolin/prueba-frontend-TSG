@@ -30,7 +30,7 @@ function App() {
 
   return (
     <div className={classes["container-home"]}>
-      <Modal visibleModal={visibleModal} onClose={onClose} />
+      <Modal visibleModal={visibleModal} onClose={onClose} places={data} />
       <div className={classes.box1}>
         <button className={classes["button-register"]} onClick={onOpen}>
           <NotebookPen color="#3C3D37" />
