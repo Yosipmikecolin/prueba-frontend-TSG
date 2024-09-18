@@ -16,7 +16,7 @@ interface Props {
 }
 
 type Type = "car" | "motorcycle" | undefined;
-type TypeValues = "startDate" | "endDate" | "plate";
+type TypeValues = "entry_time" | "exit_time" | "plate";
 type Category = "electric" | "hybrid" | undefined;
 
 const Modal = ({ visibleModal, onClose, places }: Props) => {
@@ -170,7 +170,7 @@ const Modal = ({ visibleModal, onClose, places }: Props) => {
                     selected={values.entry_time}
                     showTimeSelect
                     className={classes["date-picker"]}
-                    onChange={(date) => changeValues("startDate", date)}
+                    onChange={(date) => changeValues("entry_time", date)}
                     placeholderText="Hora de ingreso"
                   />
 
@@ -178,13 +178,14 @@ const Modal = ({ visibleModal, onClose, places }: Props) => {
                     selected={values.exit_time}
                     showTimeSelect
                     className={classes["date-picker"]}
-                    onChange={(date) => changeValues("endDate", date)}
+                    onChange={(date) => changeValues("exit_time", date)}
                     placeholderText="Hora de salida"
                   />
 
                   <h3>Categoría</h3>
                   <div className={classes["container-buttons-category"]}>
                     <button
+                      type="button"
                       className={
                         category === "electric"
                           ? classes["button-category-select"]
@@ -195,6 +196,7 @@ const Modal = ({ visibleModal, onClose, places }: Props) => {
                       Electrónico
                     </button>
                     <button
+                      type="button"
                       className={
                         category === "hybrid"
                           ? classes["button-category-select"]
@@ -207,7 +209,7 @@ const Modal = ({ visibleModal, onClose, places }: Props) => {
                     {category && <span>-25%</span>}
                   </div>
                 </div>
-                <button className={classes["button-modal"]}>
+                <button type="submit" className={classes["button-modal"]}>
                   Registrar vehiculo
                 </button>
               </>
