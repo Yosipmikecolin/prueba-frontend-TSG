@@ -2,8 +2,8 @@ import classes from "./App.module.css";
 import Portada from "./assets/Portada.jpeg";
 import IconCarUp from "./assets/icons/car-up-icon.png";
 import IconMotoUp from "./assets/icons/motorcycle-up-icon.png";
-import { NotebookPen } from "lucide-react";
-import { Modal } from "./components";
+import { BookOpenCheck, NotebookPen } from "lucide-react";
+import { Modal, ModalTotal } from "./components";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getPlaces } from "./api/request";
@@ -11,6 +11,7 @@ import { Values, Vehicle } from "./interfaces";
 
 function App() {
   const [visibleModal, setVisibleModal] = useState(false);
+  const [visibleModalTotal, setVisibleModalTotal] = useState(false);
   const [isUpdated, setIsUpdated] = useState(false);
   const [values, setValues] = useState<Values>({
     entry_time: null,
@@ -26,10 +27,15 @@ function App() {
 
   const onClose = () => {
     setVisibleModal(false);
+    setVisibleModalTotal(false);
     setIsUpdated(false);
   };
 
-  const onOpen = () => {
+  const onOpenModalTotal = () => {
+    setVisibleModalTotal(true);
+  };
+
+  const onOpenModal = () => {
     setVisibleModal(true);
   };
 
@@ -59,6 +65,11 @@ function App() {
 
   return (
     <div className={classes["container-home"]}>
+      <ModalTotal
+        visibleModal={visibleModalTotal}
+        places={data}
+        onClose={onClose}
+      />
       <Modal
         visibleModal={visibleModal}
         onClose={onClose}
@@ -73,7 +84,17 @@ function App() {
           <div className={classes.loader} />
         ) : (
           <>
-            <button className={classes["button-register"]} onClick={onOpen}>
+            <button
+              className={classes["button-total"]}
+              onClick={onOpenModalTotal}
+            >
+              <BookOpenCheck color="#3C3D37" />
+            </button>
+
+            <button
+              className={classes["button-register"]}
+              onClick={onOpenModal}
+            >
               <NotebookPen color="#3C3D37" />
             </button>
             <div className={classes.parkingSelection}>
@@ -86,7 +107,7 @@ function App() {
                     className={`${classes.spot} ${classes[spot.status]}`}
                     onClick={() => openVehicle(spot.vehicle)}
                   >
-                    {spot.status === "occupied" ? (
+                    {spot.vehicle ? (
                       <img src={IconMotoUp} width={43} />
                     ) : (
                       spot.id

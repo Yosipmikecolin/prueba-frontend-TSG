@@ -130,6 +130,26 @@
   border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
+.button-total {
+  cursor: pointer;
+  color: #3c3d37;
+  display: flex;
+  font-family: "Poppins-Regular";
+  align-items: center;
+  gap: 20px;
+  padding: 10px 20px;
+  font-size: 20px;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
 /* MEDIA QUERIES */
 
 @media (max-width: 1065px) {
