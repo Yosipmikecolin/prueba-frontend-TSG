@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { Place } from "../../interfaces";
 import { useMutation } from "@tanstack/react-query";
 import { registerVehicle } from "../../api/request";
+import DatePicker from "react-datepicker";
 
 interface Props {
   visibleModal: boolean;
@@ -18,6 +19,7 @@ type Type = "car" | "motorcycle";
 
 const Modal = ({ visibleModal, onClose, places }: Props) => {
   const [emptyPlaces, setEmptyPlaces] = useState<Place[]>([]);
+  const [startDate, setStartDate] = useState<Date | null>(new Date());
   const [typeVehicle, setTypeVehicle] = useState<Type | undefined>(undefined);
   const mutation = useMutation({
     mutationFn: registerVehicle,
@@ -119,13 +121,20 @@ const Modal = ({ visibleModal, onClose, places }: Props) => {
                     ))}
                   </div>
                   <input className={classes.input} placeholder="Placa" />
-                  <input
-                    className={classes.input}
-                    placeholder="Hora de ingreso"
+                  <DatePicker
+                    selected={startDate}
+                    showTimeSelect
+                    className={classes["date-picker"]}
+                    onChange={(date) => setStartDate(date)}
+                    placeholderText="Hora de ingreso"
                   />
-                  <input
-                    className={classes.input}
-                    placeholder="Hora de salida"
+
+                  <DatePicker
+                    selected={startDate}
+                    showTimeSelect
+                    className={classes["date-picker"]}
+                    onChange={(date) => setStartDate(date)}
+                    placeholderText="Hora de salida"
                   />
                 </div>
                 <button className={classes["button-modal"]}>

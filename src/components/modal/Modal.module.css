@@ -63,6 +63,19 @@
   border: 1px solid #a8a868;
 }
 
+.date-picker {
+  padding: 10px;
+  width: 100%;
+  outline: none;
+  box-sizing: border-box;
+  border-radius: 5px;
+  border: 1px solid rgba(182, 181, 181, 0.486);
+}
+
+.date-picker:focus {
+  border: 1px solid #a8a868;
+}
+
 .container-cards {
   display: flex;
   gap: 20px;
