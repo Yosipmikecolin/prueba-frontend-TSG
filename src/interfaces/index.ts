@@ -3,11 +3,10 @@ export interface Place {
   status: string;
   place: string;
   type: string;
-  vehicle: Vehicle;
+  vehicle: Vehicle | null;
 }
 
 export interface Vehicle {
-  id: number;
   plate: string;
   type: string;
   entry_time: Date;
@@ -22,5 +21,5 @@ export interface Values {
   plate: undefined | string;
   type?: "car" | "motorcycle";
   place?: number;
-  category?: "electric" | "hybrid";
+  category?: "electric_hybrid";
 }

@@ -161,6 +161,7 @@ export const Form = ({
               <input
                 className={classes.input}
                 placeholder="Placa"
+                value={values.plate}
                 onChange={(e) => {
                   changeValues("plate", e.target.value);
                 }}
@@ -183,7 +184,7 @@ export const Form = ({
 
               <h3>Categoría</h3>
               <div className={classes["container-buttons-category"]}>
-                <button
+                {/*         <button
                   type="button"
                   className={
                     values.category === "electric"
@@ -197,21 +198,21 @@ export const Form = ({
                   }
                 >
                   Electrónico
-                </button>
+                </button> */}
                 <button
                   type="button"
                   className={
-                    values.category === "hybrid"
+                    values.category === "electric_hybrid"
                       ? classes["button-category-select"]
                       : classes["button-category"]
                   }
                   onClick={() =>
-                    values.category === "hybrid"
+                    values.category === "electric_hybrid"
                       ? changeValues("category", undefined)
-                      : changeValues("category", "hybrid")
+                      : changeValues("category", "electric_hybrid")
                   }
                 >
-                  Híbrido
+                  Electrónico o Híbrido
                 </button>
                 {values.category && <span>-25%</span>}
               </div>

@@ -90,7 +90,6 @@
   font-weight: bold;
   font-size: 1.2em;
   color: #666;
-  cursor: pointer;
   position: relative;
   transition: 300ms ease;
 }
@@ -98,14 +97,15 @@
 /* Estados de los espacios */
 .empty {
   background-color: #fff;
+  user-select: none;
 }
 
 .occupied {
+  cursor: pointer;
   background-color: #d4d4d4;
-  cursor: not-allowed;
 }
 
-.spot:hover:not(.occupied):not(.reserved) {
+.occupied:hover {
   background-color: #cecec0;
   color: white;
 }

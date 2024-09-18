@@ -2,7 +2,6 @@
 
 import classes from "./Modal.module.css";
 import { Place, Values } from "../../interfaces";
-import { useState } from "react";
 import { Form } from "../../components";
 
 interface Props {
@@ -10,17 +9,18 @@ interface Props {
   onClose: () => void;
   places?: Place[];
   refetch: () => void;
+  values: Values;
+  setValues: React.Dispatch<React.SetStateAction<Values>>;
 }
 
-const Modal = ({ visibleModal, onClose, places, refetch }: Props) => {
-  const [values, setValues] = useState<Values>({
-    entry_time: null,
-    exit_time: null,
-    plate: undefined,
-    type: undefined,
-    category: undefined,
-  });
-
+const Modal = ({
+  visibleModal,
+  onClose,
+  places,
+  refetch,
+  values,
+  setValues,
+}: Props) => {
   const cleanValues = () => {
     setValues({
       entry_time: null,

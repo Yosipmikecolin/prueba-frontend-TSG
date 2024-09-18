@@ -7,9 +7,17 @@ import { Modal } from "./components";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getPlaces } from "./api/request";
+import { Values, Vehicle } from "./interfaces";
 
 function App() {
   const [visibleModal, setVisibleModal] = useState(false);
+  const [values, setValues] = useState<Values>({
+    entry_time: null,
+    exit_time: null,
+    plate: undefined,
+    type: undefined,
+    category: undefined,
+  });
   const { data, isLoading, refetch } = useQuery({
     queryKey: ["places"],
     queryFn: getPlaces,
@@ -25,11 +33,24 @@ function App() {
 
   const motoSpots = data
     ?.filter((a) => a.type === "motorcycle")
-    .map((b) => ({ id: b.place, status: b.status }));
+    .map((b) => ({ id: b.place, status: b.status, vehicle: b.vehicle }));
 
   const carSpots = data
     ?.filter((a) => a.type === "car")
-    .map((b) => ({ id: b.place, status: b.status }));
+    .map((b) => ({ id: b.place, status: b.status, vehicle: b.vehicle }));
+
+  const openVehicle = (vehicle: Vehicle | null) => {
+    if (vehicle) {
+      setValues({
+        entry_time: vehicle.exit_time,
+        exit_time: vehicle.exit_time,
+        plate: vehicle.plate,
+        type: vehicle.type as never,
+        category: vehicle.discount === "25" ? "electric_hybrid" : undefined,
+      });
+      setVisibleModal(true);
+    }
+  };
 
   return (
     <div className={classes["container-home"]}>
@@ -38,6 +59,8 @@ function App() {
         onClose={onClose}
         places={data}
         refetch={refetch}
+        values={values}
+        setValues={setValues}
       />
       <div className={classes.box1}>
         {isLoading ? (
@@ -55,6 +78,7 @@ function App() {
                   <div
                     key={spot.id}
                     className={`${classes.spot} ${classes[spot.status]}`}
+                    onClick={() => openVehicle(spot.vehicle)}
                   >
                     {spot.status === "occupied" ? (
                       <img src={IconMotoUp} width={43} />
@@ -72,6 +96,7 @@ function App() {
                   <div
                     key={spot.id}
                     className={`${classes.spot} ${classes[spot.status]}`}
+                    onClick={() => openVehicle(spot.vehicle)}
                   >
                     {spot.status === "occupied" ? (
                       <img src={IconCarUp} width={40} />
