@@ -24,6 +24,7 @@ const Modal = ({ visibleModal, onClose, places }: Props) => {
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [category, setCategory] = useState<Category>(undefined);
   const [typeVehicle, setTypeVehicle] = useState<Type>(undefined);
+  const [placeEmpty, setPlaceEmpty] = useState("");
   const mutation = useMutation({
     mutationFn: registerVehicle,
   });
@@ -52,6 +53,10 @@ const Modal = ({ visibleModal, onClose, places }: Props) => {
 
   const selectVehicle = (type: Type) => {
     setTypeVehicle(type);
+  };
+
+  const selectPlaceEmpty = (place: string) => {
+    setPlaceEmpty(place);
   };
 
   const cleanValues = () => {
@@ -124,9 +129,17 @@ const Modal = ({ visibleModal, onClose, places }: Props) => {
                     {typeVehicle === "car" ? " $120 × hora" : " $62 × hora"}
                   </h2>
                   <div className={classes["conatiner-places"]}>
-                    {emptyPlaces.map((place) => (
-                      <div key={place.id} className={classes.place}>
-                        {place.place}
+                    {emptyPlaces.map(({ id, place }) => (
+                      <div
+                        key={id}
+                        className={
+                          placeEmpty === place
+                            ? classes["place-select"]
+                            : classes.place
+                        }
+                        onClick={() => selectPlaceEmpty(place)}
+                      >
+                        {place}
                       </div>
                     ))}
                   </div>
@@ -169,6 +182,7 @@ const Modal = ({ visibleModal, onClose, places }: Props) => {
                     >
                       Híbrido
                     </button>
+                    {category && <span>-25%</span>}
                   </div>
                 </div>
                 <button className={classes["button-modal"]}>
