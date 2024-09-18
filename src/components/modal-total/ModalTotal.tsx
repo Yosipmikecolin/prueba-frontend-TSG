@@ -7,15 +7,17 @@ import { calculateTotalIncome } from "../../utils";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { getIncomes, registerIncome } from "../../api/request";
 import toast from "react-hot-toast";
+import { useEffect } from "react";
 
 interface Props {
   visibleModal: boolean;
   onClose: () => void;
   places?: Place[];
+  refetch: () => void;
 }
 
-const ModalTotal = ({ visibleModal, onClose, places }: Props) => {
-  const { data } = useQuery({
+const ModalTotal = ({ visibleModal, onClose, places, refetch }: Props) => {
+  const { data, refetch: refetchIncome } = useQuery({
     queryKey: ["incomes"],
     queryFn: getIncomes,
   });
@@ -44,6 +46,24 @@ const ModalTotal = ({ visibleModal, onClose, places }: Props) => {
     }
   };
 
+  useEffect(() => {
+    if (mutation.isSuccess) {
+      toast.success("Ingreso registrado");
+      refetch();
+      refetchIncome();
+      const time = setTimeout(() => {
+        onClose();
+      }, 1000);
+
+      return () => clearTimeout(time);
+    }
+
+    if (mutation.isError) {
+      toast.error("Ocurrio un error inesperado");
+      console.log("Error", mutation.error);
+    }
+  }, [mutation.isSuccess, mutation.isError]);
+
   const totalIncome = (incomes?: Incomes[]) => {
     let total = 0;
     if (incomes) {
@@ -71,9 +91,13 @@ const ModalTotal = ({ visibleModal, onClose, places }: Props) => {
           <span>${totalIncome(data)}</span>
 
           <p>Ingresos del día</p>
-          <span>${places?.length ? calculateTotalIncome(places) : "0"}</span>
+          <span>${places ? calculateTotalIncome(places) : "0"}</span>
           <button className={classes["button-income"]} onClick={handleSubmit}>
-            Cerrar el día
+            {mutation.isPending ? (
+              <div className={classes.loader} />
+            ) : (
+              "Cerrar el día"
+            )}
           </button>
         </div>
       </section>

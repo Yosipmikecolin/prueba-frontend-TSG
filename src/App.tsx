@@ -66,6 +66,7 @@ function App() {
   return (
     <div className={classes["container-home"]}>
       <ModalTotal
+        refetch={refetch}
         visibleModal={visibleModalTotal}
         places={data}
         onClose={onClose}
