@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 import { useEffect, useState } from "react";
 import { Place, Values } from "../../interfaces";
 import { useMutation } from "@tanstack/react-query";
-import { registerVehicle } from "../../api/request";
+import { registerVehicle, updatedVehicle } from "../../api/request";
 
 type TypeValues =
   | "entry_time"
@@ -23,6 +23,7 @@ interface Props {
   onClose: () => void;
   cleanValues: () => void;
   values: Values;
+  isUpdated: boolean;
   setValues: React.Dispatch<React.SetStateAction<Values>>;
 }
 
@@ -33,11 +34,12 @@ export const Form = ({
   cleanValues,
   values,
   setValues,
+  isUpdated,
 }: Props) => {
   const [emptyPlaces, setEmptyPlaces] = useState<Place[]>([]);
 
   const mutation = useMutation({
-    mutationFn: registerVehicle,
+    mutationFn: isUpdated ? updatedVehicle : registerVehicle,
   });
 
   useEffect(() => {
@@ -88,6 +90,7 @@ export const Form = ({
       values.exit_time
     ) {
       mutation.mutate({
+        id: places?.find((i) => i.id === values.place)?.id,
         discount: values.category ? "25" : "0",
         entry_time: values.entry_time,
         exit_time: values.exit_time,
@@ -143,21 +146,37 @@ export const Form = ({
                 Precio:
                 {values.type === "car" ? " $120 × hora" : " $62 × hora"}
               </h2>
-              <div className={classes["conatiner-places"]}>
-                {emptyPlaces.map(({ id, place }) => (
-                  <div
-                    key={id}
-                    className={
-                      values.place === id
-                        ? classes["place-select"]
-                        : classes.place
-                    }
-                    onClick={() => changeValues("place", id)}
-                  >
-                    {place}
+              <hr />
+              {isUpdated ? (
+                <>
+                  <h3>Plaza actual</h3>
+                  <div className={classes["conatiner-places"]}>
+                    <div className={classes["place-select"]}>
+                      {places?.find((i) => i.id === values.place)?.place}
+                    </div>
                   </div>
-                ))}
-              </div>
+                </>
+              ) : (
+                <>
+                  <h3>Plazas disponibles</h3>
+                  <div className={classes["conatiner-places"]}>
+                    {emptyPlaces.map(({ id, place }) => (
+                      <div
+                        key={id}
+                        className={
+                          values.place === id
+                            ? classes["place-select"]
+                            : classes.place
+                        }
+                        onClick={() => changeValues("place", id)}
+                      >
+                        {place}
+                      </div>
+                    ))}
+                  </div>
+                </>
+              )}
+
               <input
                 className={classes.input}
                 placeholder="Placa"
@@ -184,21 +203,6 @@ export const Form = ({
 
               <h3>Categoría</h3>
               <div className={classes["container-buttons-category"]}>
-                {/*         <button
-                  type="button"
-                  className={
-                    values.category === "electric"
-                      ? classes["button-category-select"]
-                      : classes["button-category"]
-                  }
-                  onClick={() =>
-                    values.category === "electric"
-                      ? changeValues("category", undefined)
-                      : changeValues("category", "electric")
-                  }
-                >
-                  Electrónico
-                </button> */}
                 <button
                   type="button"
                   className={

@@ -11,6 +11,7 @@ interface Props {
   refetch: () => void;
   values: Values;
   setValues: React.Dispatch<React.SetStateAction<Values>>;
+  isUpdated: boolean;
 }
 
 const Modal = ({
@@ -20,6 +21,7 @@ const Modal = ({
   refetch,
   values,
   setValues,
+  isUpdated,
 }: Props) => {
   const cleanValues = () => {
     setValues({
@@ -51,6 +53,7 @@ const Modal = ({
             refetch={refetch}
             values={values}
             setValues={setValues}
+            isUpdated={isUpdated}
           />
         </div>
       </section>

@@ -10,3 +10,8 @@ export const registerVehicle = async (data: Vehicle) => {
   const response = await axiosConfig.post("/register-vehicle", data);
   return response.data;
 };
+
+export const updatedVehicle = async (data: Vehicle) => {
+  const response = await axiosConfig.post("/updated-vehicle", data);
+  return response.data;
+};

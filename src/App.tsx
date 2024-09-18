@@ -11,6 +11,7 @@ import { Values, Vehicle } from "./interfaces";
 
 function App() {
   const [visibleModal, setVisibleModal] = useState(false);
+  const [isUpdated, setIsUpdated] = useState(false);
   const [values, setValues] = useState<Values>({
     entry_time: null,
     exit_time: null,
@@ -25,6 +26,7 @@ function App() {
 
   const onClose = () => {
     setVisibleModal(false);
+    setIsUpdated(false);
   };
 
   const onOpen = () => {
@@ -41,13 +43,16 @@ function App() {
 
   const openVehicle = (vehicle: Vehicle | null) => {
     if (vehicle) {
+      setIsUpdated(true);
       setValues({
-        entry_time: vehicle.exit_time,
-        exit_time: vehicle.exit_time,
+        entry_time: new Date(vehicle.entry_time),
+        exit_time: new Date(vehicle.exit_time),
         plate: vehicle.plate,
         type: vehicle.type as never,
         category: vehicle.discount === "25" ? "electric_hybrid" : undefined,
+        place: vehicle.placeId,
       });
+
       setVisibleModal(true);
     }
   };
@@ -61,6 +66,7 @@ function App() {
         refetch={refetch}
         values={values}
         setValues={setValues}
+        isUpdated={isUpdated}
       />
       <div className={classes.box1}>
         {isLoading ? (

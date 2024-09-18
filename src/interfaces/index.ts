@@ -7,6 +7,7 @@ export interface Place {
 }
 
 export interface Vehicle {
+  id?:number
   plate: string;
   type: string;
   entry_time: Date;
