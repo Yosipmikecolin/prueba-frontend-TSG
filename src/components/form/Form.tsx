@@ -5,19 +5,17 @@ import IconMoto from "../../assets/icons/motorcycle-side-icon.png";
 import DatePicker from "react-datepicker";
 import toast from "react-hot-toast";
 import { useEffect, useState } from "react";
-import { Place } from "../../interfaces";
+import { Place, Values } from "../../interfaces";
 import { useMutation } from "@tanstack/react-query";
 import { registerVehicle } from "../../api/request";
 
-type Type = "car" | "motorcycle" | undefined;
-type TypeValues = "entry_time" | "exit_time" | "plate";
-type Category = "electric" | "hybrid" | undefined;
-
-interface Values {
-  entry_time: null;
-  exit_time: null;
-  plate: undefined;
-}
+type TypeValues =
+  | "entry_time"
+  | "exit_time"
+  | "plate"
+  | "type"
+  | "category"
+  | "place";
 
 interface Props {
   places?: Place[];
@@ -37,25 +35,22 @@ export const Form = ({
   setValues,
 }: Props) => {
   const [emptyPlaces, setEmptyPlaces] = useState<Place[]>([]);
-  const [category, setCategory] = useState<Category>(undefined);
-  const [typeVehicle, setTypeVehicle] = useState<Type>(undefined);
-  const [placeEmpty, setPlaceEmpty] = useState<number | undefined>(undefined);
 
   const mutation = useMutation({
     mutationFn: registerVehicle,
   });
 
   useEffect(() => {
-    if (typeVehicle) {
+    if (values.type) {
       const emptys = places?.length
         ? places
             .filter((i) => i.status === "empty")
-            .filter((b) => b.type === typeVehicle)
+            .filter((b) => b.type === values.type)
         : [];
 
       setEmptyPlaces(emptys);
     }
-  }, [typeVehicle]);
+  }, [values.type]);
 
   useEffect(() => {
     if (mutation.isSuccess) {
@@ -64,7 +59,7 @@ export const Form = ({
       const time = setTimeout(() => {
         onClose();
         cleanValues();
-      }, 1200);
+      }, 1000);
 
       return () => clearTimeout(time);
     }
@@ -79,14 +74,6 @@ export const Form = ({
     e.stopPropagation();
   };
 
-  const selectVehicle = (type: Type) => {
-    setTypeVehicle(type);
-  };
-
-  const selectPlaceEmpty = (id: number) => {
-    setPlaceEmpty(id);
-  };
-
   const changeValues = (type: TypeValues, value: any) => {
     setValues({ ...values, [type]: value });
   };
@@ -94,19 +81,19 @@ export const Form = ({
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (
-      typeVehicle &&
-      placeEmpty &&
+      values.type &&
+      values.place &&
       values.entry_time &&
-      values.exit_time &&
-      values.plate
+      values.plate &&
+      values.exit_time
     ) {
       mutation.mutate({
-        discount: category ? "25" : "0",
+        discount: values.category ? "25" : "0",
         entry_time: values.entry_time,
         exit_time: values.exit_time,
         plate: values.plate,
-        type: typeVehicle,
-        placeId: placeEmpty,
+        type: values.type,
+        placeId: values.place,
       });
     } else {
       toast("Llena todos los campos");
@@ -120,18 +107,18 @@ export const Form = ({
           className={classes["icon-close"]}
           onClick={() => {
             onClose();
-            setTypeVehicle(undefined);
+            cleanValues();
           }}
         />
         <h1>Selecciona un tipo</h1>
         <div className={classes["container-cards"]}>
           <div
             className={
-              typeVehicle === "car"
+              values.type === "car"
                 ? classes["card-vehicle-select"]
                 : classes["card-vehicle"]
             }
-            onClick={() => selectVehicle("car")}
+            onClick={() => changeValues("type", "car")}
           >
             <img src={IconCar} width={150} />
             <span>Vehículo Ligero</span>
@@ -139,33 +126,33 @@ export const Form = ({
 
           <div
             className={
-              typeVehicle === "motorcycle"
+              values.type === "motorcycle"
                 ? classes["card-vehicle-select"]
                 : classes["card-vehicle"]
             }
-            onClick={() => selectVehicle("motorcycle")}
+            onClick={() => changeValues("type", "motorcycle")}
           >
             <img src={IconMoto} width={100} />
             <span>Motocicletas</span>
           </div>
         </div>
-        {typeVehicle && (
+        {values.type && (
           <>
             <div className={classes["container-inputs"]}>
               <h2>
                 Precio:
-                {typeVehicle === "car" ? " $120 × hora" : " $62 × hora"}
+                {values.type === "car" ? " $120 × hora" : " $62 × hora"}
               </h2>
               <div className={classes["conatiner-places"]}>
                 {emptyPlaces.map(({ id, place }) => (
                   <div
                     key={id}
                     className={
-                      placeEmpty === id
+                      values.place === id
                         ? classes["place-select"]
                         : classes.place
                     }
-                    onClick={() => selectPlaceEmpty(id)}
+                    onClick={() => changeValues("place", id)}
                   >
                     {place}
                   </div>
@@ -199,26 +186,26 @@ export const Form = ({
                 <button
                   type="button"
                   className={
-                    category === "electric"
+                    values.category === "electric"
                       ? classes["button-category-select"]
                       : classes["button-category"]
                   }
-                  onClick={() => setCategory("electric")}
+                  onClick={() => changeValues("category", "electric")}
                 >
                   Electrónico
                 </button>
                 <button
                   type="button"
                   className={
-                    category === "hybrid"
+                    values.category === "hybrid"
                       ? classes["button-category-select"]
                       : classes["button-category"]
                   }
-                  onClick={() => setCategory("hybrid")}
+                  onClick={() => changeValues("category", "hybrid")}
                 >
                   Híbrido
                 </button>
-                {category && <span>-25%</span>}
+                {values.category && <span>-25%</span>}
               </div>
             </div>
             <button type="submit" className={classes["button-modal"]}>

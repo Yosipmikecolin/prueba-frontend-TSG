@@ -1,9 +1,9 @@
 "use client";
 
 import classes from "./Modal.module.css";
-import { Place } from "../../interfaces";
-import { Form } from "../form/Form";
+import { Place, Values } from "../../interfaces";
 import { useState } from "react";
+import { Form } from "../../components";
 
 interface Props {
   visibleModal: boolean;
@@ -13,10 +13,12 @@ interface Props {
 }
 
 const Modal = ({ visibleModal, onClose, places, refetch }: Props) => {
-  const [values, setValues] = useState({
+  const [values, setValues] = useState<Values>({
     entry_time: null,
     exit_time: null,
     plate: undefined,
+    type: undefined,
+    category: undefined,
   });
 
   const cleanValues = () => {
@@ -24,6 +26,8 @@ const Modal = ({ visibleModal, onClose, places, refetch }: Props) => {
       entry_time: null,
       exit_time: null,
       plate: undefined,
+      type: undefined,
+      category: undefined,
     });
   };
 

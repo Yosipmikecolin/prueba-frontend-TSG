@@ -13,3 +13,12 @@ export interface Vehicle {
   discount: string;
   placeId: number;
 }
+
+export interface Values {
+  entry_time: null | Date;
+  exit_time: null | Date;
+  plate: undefined | string;
+  type?: "car" | "motorcycle";
+  place?: number;
+  category?: "electric" | "hybrid";
+}
