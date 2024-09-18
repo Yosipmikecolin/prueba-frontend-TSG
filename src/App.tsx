@@ -5,9 +5,12 @@ import IconMotoUp from "./assets/icons/motorcycle-up-icon.png";
 import { NotebookPen } from "lucide-react";
 import { Modal } from "./components";
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { getPlaces } from "./api/request";
 
 function App() {
   const [visibleModal, setVisibleModal] = useState(false);
+  const { data } = useQuery({ queryKey: ["todos"], queryFn: getPlaces });
 
   const onClose = () => {
     setVisibleModal(false);
@@ -17,22 +20,13 @@ function App() {
     setVisibleModal(true);
   };
 
-  const motoSpots = [
-    { id: "M1", status: "empty" },
-    { id: "M2", status: "empty" },
-    { id: "M3", status: "occupied" },
-    { id: "M4", status: "empty" },
-    { id: "M5", status: "empty" },
-  ];
+  const motoSpots = data
+    ?.filter((a) => a.type === "motorcycle")
+    .map((b) => ({ id: b.place, status: b.status }));
 
-  const carSpots = [
-    { id: "C1", status: "empty" },
-    { id: "C2", status: "occupied" },
-    { id: "C3", status: "empty" },
-    { id: "C4", status: "empty" },
-    { id: "C5", status: "empty" },
-    { id: "C6", status: "empty" },
-  ];
+  const carSpots = data
+    ?.filter((a) => a.type === "car")
+    .map((b) => ({ id: b.place, status: b.status }));
 
   return (
     <div className={classes["container-home"]}>
@@ -45,7 +39,7 @@ function App() {
           {/* Sección de motos */}
           <div className={classes.categoryTitle}>Motos</div>
           <div className={classes.parkingGrid}>
-            {motoSpots.map((spot) => (
+            {motoSpots?.map((spot) => (
               <div
                 key={spot.id}
                 className={`${classes.spot} ${classes[spot.status]}`}
@@ -62,7 +56,7 @@ function App() {
           {/* Sección de carros */}
           <div className={classes.categoryTitle}>Carros</div>
           <div className={classes.parkingGrid}>
-            {carSpots.map((spot) => (
+            {carSpots?.map((spot) => (
               <div
                 key={spot.id}
                 className={`${classes.spot} ${classes[spot.status]}`}

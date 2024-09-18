@@ -10,16 +10,18 @@ interface Props {
   onClose: () => void;
 }
 
-type Vehicle = "vehicle" | "motorcycle";
+type Vehicle = "car" | "motorcycle";
 
 const Modal = ({ visibleModal, onClose }: Props) => {
   const [typeVehicle, setTypeVehicle] = useState<Vehicle | undefined>(
     undefined
   );
+  const places = [1, 2, 3, 4, 5, 6, 7];
 
   const handleContainerClick = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
     onClose();
+    setTypeVehicle(undefined);
   };
 
   const handleFormClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -38,16 +40,22 @@ const Modal = ({ visibleModal, onClose }: Props) => {
       >
         <form>
           <div className={classes["form-modal"]} onClick={handleFormClick}>
-            <CircleX className={classes["icon-close"]} onClick={onClose} />
+            <CircleX
+              className={classes["icon-close"]}
+              onClick={() => {
+                onClose();
+                setTypeVehicle(undefined);
+              }}
+            />
             <h1>Selecciona un tipo</h1>
             <div className={classes["container-cards"]}>
               <div
                 className={
-                  typeVehicle === "vehicle"
+                  typeVehicle === "car"
                     ? classes["card-vehicle-select"]
                     : classes["card-vehicle"]
                 }
-                onClick={() => selectVehicle("vehicle")}
+                onClick={() => selectVehicle("car")}
               >
                 <img src={IconCar} width={150} />
                 <span>Vehículo Ligero</span>
@@ -65,8 +73,33 @@ const Modal = ({ visibleModal, onClose }: Props) => {
                 <span>Motocicletas</span>
               </div>
             </div>
-
-            {typeVehicle && <p>asd</p>}
+            {typeVehicle && (
+              <>
+                <div className={classes["container-inputs"]}>
+                  <h2>
+                    Precio:
+                    {typeVehicle === "car" ? " $120 × hora" : " $62 × hora"}
+                  </h2>
+                  <div className={classes["conatiner-places"]}>
+                    {places.map((place) => (
+                      <div key={place} className={classes.place} />
+                    ))}
+                  </div>
+                  <input className={classes.input} placeholder="Placa" />
+                  <input
+                    className={classes.input}
+                    placeholder="Hora de ingreso"
+                  />
+                  <input
+                    className={classes.input}
+                    placeholder="Hora de salida"
+                  />
+                </div>
+                <button className={classes["button-modal"]}>
+                  Registrar vehiculo
+                </button>
+              </>
+            )}
           </div>
         </form>
       </section>
