@@ -56,7 +56,7 @@ export const Form = ({
 
   useEffect(() => {
     if (mutation.isSuccess) {
-      toast.success("Vehículo registrado");
+      toast.success(isUpdated ? "Vehículo actualizado" : "Vehículo registrado");
       refetch();
       const time = setTimeout(() => {
         onClose();
@@ -224,6 +224,8 @@ export const Form = ({
             <button type="submit" className={classes["button-modal"]}>
               {mutation.isPending ? (
                 <div className={classes.loader} />
+              ) : isUpdated ? (
+                "Actualizar vehículo"
               ) : (
                 "Registrar vehículo"
               )}
