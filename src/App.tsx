@@ -10,8 +10,8 @@ import { getPlaces } from "./api/request";
 
 function App() {
   const [visibleModal, setVisibleModal] = useState(false);
-  const { data, isLoading } = useQuery({
-    queryKey: ["todos"],
+  const { data, isLoading, refetch } = useQuery({
+    queryKey: ["places"],
     queryFn: getPlaces,
   });
 
@@ -33,7 +33,12 @@ function App() {
 
   return (
     <div className={classes["container-home"]}>
-      <Modal visibleModal={visibleModal} onClose={onClose} places={data} />
+      <Modal
+        visibleModal={visibleModal}
+        onClose={onClose}
+        places={data}
+        refetch={refetch}
+      />
       <div className={classes.box1}>
         {isLoading ? (
           <div className={classes.loader} />

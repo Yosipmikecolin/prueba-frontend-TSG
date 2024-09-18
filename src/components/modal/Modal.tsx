@@ -5,6 +5,7 @@ import IconCar from "../../assets/icons/car-side-icon.png";
 import IconMoto from "../../assets/icons/motorcycle-side-icon.png";
 import { useEffect, useState } from "react";
 import { Place } from "../../interfaces";
+import { toast } from "react-hot-toast";
 import { useMutation } from "@tanstack/react-query";
 import { registerVehicle } from "../../api/request";
 import DatePicker from "react-datepicker";
@@ -13,17 +14,18 @@ interface Props {
   visibleModal: boolean;
   onClose: () => void;
   places?: Place[];
+  refetch: () => void;
 }
 
 type Type = "car" | "motorcycle" | undefined;
 type TypeValues = "entry_time" | "exit_time" | "plate";
 type Category = "electric" | "hybrid" | undefined;
 
-const Modal = ({ visibleModal, onClose, places }: Props) => {
+const Modal = ({ visibleModal, onClose, places, refetch }: Props) => {
   const [emptyPlaces, setEmptyPlaces] = useState<Place[]>([]);
   const [category, setCategory] = useState<Category>(undefined);
   const [typeVehicle, setTypeVehicle] = useState<Type>(undefined);
-  const [placeEmpty, setPlaceEmpty] = useState("");
+  const [placeEmpty, setPlaceEmpty] = useState<number | undefined>(undefined);
   const [values, setValues] = useState({
     entry_time: null,
     exit_time: null,
@@ -46,6 +48,24 @@ const Modal = ({ visibleModal, onClose, places }: Props) => {
     }
   }, [typeVehicle]);
 
+  useEffect(() => {
+    if (mutation.isSuccess) {
+      toast.success("Vehículo registrado");
+      refetch();
+      const time = setTimeout(() => {
+        onClose();
+        cleanValues();
+      }, 1200);
+
+      return () => clearTimeout(time);
+    }
+
+    if (mutation.isError) {
+      toast.error("Ocurrio un error inesperado");
+      console.log("Error", mutation.error);
+    }
+  }, [mutation.isSuccess, mutation.isError]);
+
   const handleContainerClick = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
     onClose();
@@ -60,8 +80,8 @@ const Modal = ({ visibleModal, onClose, places }: Props) => {
     setTypeVehicle(type);
   };
 
-  const selectPlaceEmpty = (place: string) => {
-    setPlaceEmpty(place);
+  const selectPlaceEmpty = (id: number) => {
+    setPlaceEmpty(id);
   };
 
   const cleanValues = () => {
@@ -83,16 +103,15 @@ const Modal = ({ visibleModal, onClose, places }: Props) => {
       values.plate
     ) {
       mutation.mutate({
-        discount: "20",
+        discount: category ? "25" : "0",
         entry_time: values.entry_time,
         exit_time: values.exit_time,
         plate: values.plate,
         type: typeVehicle,
         placeId: placeEmpty,
       });
-      console.log("values", values);
     } else {
-      alert("LLena todos los campos");
+      toast("Llena todos los campos");
     }
   };
 
@@ -149,11 +168,11 @@ const Modal = ({ visibleModal, onClose, places }: Props) => {
                       <div
                         key={id}
                         className={
-                          placeEmpty === place
+                          placeEmpty === id
                             ? classes["place-select"]
                             : classes.place
                         }
-                        onClick={() => selectPlaceEmpty(place)}
+                        onClick={() => selectPlaceEmpty(id)}
                       >
                         {place}
                       </div>
@@ -210,7 +229,11 @@ const Modal = ({ visibleModal, onClose, places }: Props) => {
                   </div>
                 </div>
                 <button type="submit" className={classes["button-modal"]}>
-                  Registrar vehiculo
+                  {mutation.isPending ? (
+                    <div className={classes.loader} />
+                  ) : (
+                    "Registrar vehículo"
+                  )}
                 </button>
               </>
             )}

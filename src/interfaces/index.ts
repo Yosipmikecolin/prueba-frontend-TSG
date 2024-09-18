@@ -11,5 +11,5 @@ export interface Vehicle {
   entry_time: Date;
   exit_time: Date;
   discount: string;
-  placeId: string;
+  placeId: number;
 }
