@@ -113,7 +113,9 @@ const Modal = ({ visibleModal, onClose, places }: Props) => {
                   </h2>
                   <div className={classes["conatiner-places"]}>
                     {emptyPlaces.map((place) => (
-                      <div key={place.id} className={classes.place} />
+                      <div key={place.id} className={classes.place}>
+                        {place.place}
+                      </div>
                     ))}
                   </div>
                   <input className={classes.input} placeholder="Placa" />
