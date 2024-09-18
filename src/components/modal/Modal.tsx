@@ -3,7 +3,7 @@ import { CircleX } from "lucide-react";
 import classes from "./Modal.module.css";
 import IconCar from "../../assets/icons/car-side-icon.png";
 import IconMoto from "../../assets/icons/motorcycle-side-icon.png";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Place } from "../../interfaces";
 
 interface Props {
@@ -15,13 +15,22 @@ interface Props {
 type Vehicle = "car" | "motorcycle";
 
 const Modal = ({ visibleModal, onClose, places }: Props) => {
+  const [emptyPlaces, setEmptyPlaces] = useState<Place[]>([]);
   const [typeVehicle, setTypeVehicle] = useState<Vehicle | undefined>(
     undefined
   );
 
-  const emptyPlaces = places?.length
-    ? places.filter((i) => i.status === "empty")
-    : [];
+  useEffect(() => {
+    if (typeVehicle) {
+      const emptys = places?.length
+        ? places
+            .filter((i) => i.status === "empty")
+            .filter((b) => b.type === typeVehicle)
+        : [];
+
+      setEmptyPlaces(emptys);
+    }
+  }, [typeVehicle]);
 
   const handleContainerClick = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
