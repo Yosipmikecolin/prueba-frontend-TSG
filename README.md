@@ -11,12 +11,30 @@ A continuación, se enumeran los paquetes necesarios para ejecutar el proyecto e
 
 
 
-## Componentes 🚀
+## Componentes 🛞
 
 En este proyecto, todos los componentes de diseño, desde el modal hasta los botones y cards, fueron creados meticulosamente desde cero. Este enfoque se ha adoptado con el propósito específico de demostrar mis habilidades y conocimientos como desarrollador Frontend. Cada componente ha sido diseñado y desarrollado con atención al detalle, reflejando mi capacidad para crear soluciones frontend eficientes y estéticamente atractivas.
 
 
-
+## URL de producción de la API de backend 🚀
+[https://api-tsg-8f6ff7a19420.herokuapp.com/api](https://api-tsg-8f6ff7a19420.herokuapp.com/api)
+* Crear una plaza : https://api-tsg-8f6ff7a19420.herokuapp.com/api/create-place
+  
+  `{
+  "place":"C6",
+  "type":"car",
+  "status":"empty"
+}`
+* Obtener plazas : https://api-tsg-8f6ff7a19420.herokuapp.com/api/get-places
+* Actualizar vehículo : https://api-tsg-8f6ff7a19420.herokuapp.com/api/updated-vehicle
+  
+  `{
+    "id": 1,
+    "discount": "0",
+    "plate": "DFG4as",
+    "type": "motorcycle",
+}`
+* Obtener los ingresos : https://api-tsg-8f6ff7a19420.herokuapp.com/api/get-incomes)
 
 ## Diseño responsivo 🎨
 
