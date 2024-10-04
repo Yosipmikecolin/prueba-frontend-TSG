@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosConfig = axios.create({
-  baseURL: "http://localhost:5000/api",
+  baseURL: "https://api-tsg-8f6ff7a19420.herokuapp.com/api",
   headers: {
     "Content-Type": "application/json",
   },
